@@ -18,9 +18,7 @@ public class AddScript : EditorWindow
         {
             return;
         }
-        InputScriptNameWindow.Open(
-            targetObject,
-            args => OnCreateScript(args));
+        InputScriptNameWindow.Open(targetObject, args => OnCreateScript(args));
     }
 
     [DidReloadScripts]

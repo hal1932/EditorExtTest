@@ -51,7 +51,7 @@ namespace Assets.Editor
             titleContent = new GUIContent("作成するスクリプト名を入力してください");
         }
 
-        void OnGUI()
+        private void OnGUI()
         {
             Directory = EditorGUILayout.TextField("ディレクトリ", Directory);
             ScriptName = EditorGUILayout.TextField("スクリプト名", ScriptName);
@@ -67,7 +67,7 @@ namespace Assets.Editor
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             if (_onCreate != null)
             {

@@ -16,6 +16,7 @@ namespace Assets.Editor
 
         public static AssetLoadingInfo Load()
         {
+            // TODO: 複数のコンテクストを同時に保持できるように、ファイルパスをユニークなものにする
             if (!File.Exists(cFilePath))
             {
                 return new AssetLoadingInfo();
