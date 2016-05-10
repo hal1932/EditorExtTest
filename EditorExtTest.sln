@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorExtTest.CSharp", "Edi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorExtTest.CSharp.Editor", "EditorExtTest.CSharp.Editor.csproj", "{3A6F3C75-6815-7565-7888-6217D08E4689}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HlLib.Unity", "HlLib.Unity\HlLib.Unity.csproj", "{03BE5EE4-936B-4943-A889-52807A4B8F53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{3A6F3C75-6815-7565-7888-6217D08E4689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6F3C75-6815-7565-7888-6217D08E4689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6F3C75-6815-7565-7888-6217D08E4689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03BE5EE4-936B-4943-A889-52807A4B8F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BE5EE4-936B-4943-A889-52807A4B8F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BE5EE4-936B-4943-A889-52807A4B8F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BE5EE4-936B-4943-A889-52807A4B8F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

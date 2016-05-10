@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Editor
+namespace HlLib.Unity
 {
     public static class PathUtil
     {

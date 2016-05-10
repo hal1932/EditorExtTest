@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Editor
+namespace HlLib.Unity
 {
     public abstract class DisposableLayout : IDisposable
     {

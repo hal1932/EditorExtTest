@@ -6,6 +6,7 @@ using System.Reflection;
 using System.IO;
 using Assets.Editor;
 using UnityEditor.Callbacks;
+using HlLib.Unity;
 
 public class AddScript : EditorWindow
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Editor
+namespace HlLib.Unity
 {
     public static class LayoutUtil
     {

@@ -90,6 +90,12 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="DllTest">
+      <HintPath>Assets\DllTest.dll</HintPath>
+    </Reference>
+    <Reference Include="HlLib.Unity">
+      <HintPath>Assets\HlLib.Unity.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="EditorExtTest.CSharp.csproj">
@@ -100,14 +106,8 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\AddScript.cs" />
     <Compile Include="Assets\Editor\AssetLoadingInfo.cs" />
-    <Compile Include="Assets\Editor\AssetUtil.cs" />
-    <Compile Include="Assets\Editor\Bootstrap.cs" />
     <Compile Include="Assets\Editor\EditorExWindow.cs" />
     <Compile Include="Assets\Editor\InputScriptNameWindow.cs" />
-    <Compile Include="Assets\Editor\LayoutUtil.cs" />
-    <Compile Include="Assets\Editor\PathUtil.cs" />
-    <Compile Include="Assets\Editor\Session.cs" />
-    <Compile Include="Assets\Editor\scopedLayout.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

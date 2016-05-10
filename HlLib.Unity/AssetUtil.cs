@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 
-namespace Assets.Editor
+namespace HlLib.Unity
 {
     public static class AssetUtil
     {
