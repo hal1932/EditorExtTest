@@ -17,9 +17,7 @@ public class AddScript : EditorWindow
         {
             return;
         }
-        InputScriptNameWindow.Open(
-            targetObject,
-            args => OnCreateScript(args));
+        InputScriptNameWindow.Open(window => OnCreateScript(targetObject, window.ScriptName));
     }
 
     [DidReloadScripts]
@@ -27,24 +25,43 @@ public class AddScript : EditorWindow
     {
         using (var info = AssetLoadingInfo.Load())
         {
-            LoadNewAsset(info);
+            var session = Session.Find(info.SessionId);
+            if (session == null)
+            {
+                return;
+            }
+            session.Delete();
+
+            if (File.Exists(info.FilePath))
+            {
+                var script = AssetDatabase.LoadAssetAtPath<MonoScript>(info.FilePath);
+                if (script == null)
+                {
+                    return;
+                }
+                var scriptClass = script.GetClass();
+                if (scriptClass != null)
+                {
+                    Attach(scriptClass, info.ObjectName);
+                    info.FilePath = null;
+                }
+            }
         }
         EditorUtility.ClearProgressBar();
     }
 
-    private static void OnCreateScript(CreateScriptArgs args)
+    private static void OnCreateScript(GameObject targetObject, string scriptName)
     {
-        var newScriptPath = args.FullName;
+        var src = "Assets/Scripts/test.cs";
+        var dst = "Assets/Scripts/test1.cs";
 
-        if (AssetUtil.Exists(newScriptPath))
+        var existScripts = AssetDatabase.FindAssets(Path.GetFileNameWithoutExtension(dst), new string[] { Path.GetDirectoryName(dst) });
+        if(existScripts.Length > 0)
         {
-            var doDelete = EditorUtility.DisplayDialog(
-                "エラー",
-                string.Format("{0} は既に存在しています。上書きしますか？", newScriptPath),
-                "OK", "キャンセル");
+            var doDelete = EditorUtility.DisplayDialog("duplicated name", "test1 is already exists. delete it?", "delete", "cancel");
             if (doDelete)
             {
-                AssetDatabase.DeleteAsset(newScriptPath);
+                AssetDatabase.DeleteAsset(dst);
             }
             else
             {
@@ -52,78 +69,27 @@ public class AddScript : EditorWindow
             }
         }
 
-        var directory = Path.GetDirectoryName(args.FullName);
-        if (!Directory.Exists(directory))
+        using (var writer = new StreamWriter(dst))
+        using (var reader = new StreamReader(src))
         {
-            Directory.CreateDirectory(directory);
+            var text = reader.ReadToEnd();
+            writer.Write(text.Replace("test", "test1"));
         }
 
-        var templatePath = (string.IsNullOrEmpty(args.NameSpace)) ?
-            PathUtil.Combine("Data", "template.cs")
-            : PathUtil.Combine("Data", "templateWithNamespace.cs");
-
-        using (var writer = new StreamWriter(newScriptPath))
-        using (var reader = new StreamReader(templatePath))
-        {
-            var source = reader.ReadToEnd();
-
-            var newSource = source.Replace("${ClassName}", Path.GetFileNameWithoutExtension(args.Name));
-            if (!string.IsNullOrEmpty(args.NameSpace))
-            {
-                newSource = newSource.Replace("${NameSpace}", args.NameSpace);
-            }
-
-            writer.Write(newSource);
-        }
-
-        // リロード後に情報を渡すために、セッションを貼って作成情報をシリアライズしておく
         using (var info = AssetLoadingInfo.Load())
         {
-            info.FilePath = newScriptPath;
-            info.ObjectName = args.TargetObject.name;
+            info.FilePath = dst;
+            info.ObjectName = targetObject.name;
             info.SessionId = Session.Create().Id;
         }
+        AssetDatabase.ImportAsset(dst, ImportAssetOptions.ForceUpdate);
 
-        // 作成したスクリプトを読み込んでリロード
-        AssetDatabase.ImportAsset(newScriptPath, ImportAssetOptions.ForceUpdate);
-
-        // とりあえずなんか出しとく
         EditorUtility.DisplayProgressBar("title", "info", 0.3f);
     }
 
-    private static void LoadNewAsset(AssetLoadingInfo info)
+    private static void Attach(Type scriptClass, string objectName)
     {
-        // セッションが貼られていなければ何もしない
-        var session = Session.Find(info.SessionId);
-        if (session == null)
-        {
-            return;
-        }
-        session.Delete();
-
-        if (!File.Exists(info.FilePath))
-        {
-            return;
-        }
-
-        var script = AssetDatabase.LoadAssetAtPath<MonoScript>(info.FilePath);
-        if (script == null)
-        {
-            return;
-        }
-
-        var scriptClass = script.GetClass();
-        if (scriptClass == null)
-        {
-            return;
-        }
-
-        var gameObject = GameObject.Find(info.ObjectName);
-        if (gameObject == null)
-        {
-            return;
-        }
-
+        var gameObject = GameObject.Find(objectName);
         gameObject.AddComponent(scriptClass);
     }
 }

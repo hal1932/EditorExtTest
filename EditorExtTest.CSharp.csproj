@@ -65,9 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\NewBehaviourScript1.cs" />
-    <Compile Include="Assets\Scripts\Test\GameObject.cs" />
-    <Compile Include="Assets\Scripts\Test\GameObject1.cs" />
-    <Compile Include="Assets\Scripts\Test\GameObject2.cs" />
+    <Compile Include="Assets\Scripts\test.cs" />
     <Compile Include="Assets\Scripts\test1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

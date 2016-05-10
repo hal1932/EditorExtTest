@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
-public class test1 : MonoBehaviour {
+public class test : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

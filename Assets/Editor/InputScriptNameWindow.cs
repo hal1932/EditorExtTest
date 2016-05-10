@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEditor;
@@ -8,53 +7,26 @@ using UnityEngine;
 
 namespace Assets.Editor
 {
-    class CreateScriptArgs
-    {
-        public GameObject TargetObject { get; private set; }
-        public string FullName { get; private set; }
-        public string Name { get { return Path.GetFileName(FullName); } }
-        public string NameSpace { get; private set; }
-
-        public CreateScriptArgs(GameObject targetObject, string fullname, string nameSpace)
-        {
-            TargetObject = targetObject;
-            FullName = fullname;
-            NameSpace = nameSpace;
-        }
-    }
-
     class InputScriptNameWindow : EditorWindow
     {
-        public string Directory { get; private set; }
         public string ScriptName { get; private set; }
-        public string NameSpace { get; private set; }
 
-        public static void Open(GameObject targetObject, Action<CreateScriptArgs> onCreate)
+        public InputScriptNameWindow()
         {
-            var window = CreateInstance<InputScriptNameWindow>();
-            window.Setup(targetObject, onCreate);
-            window.ShowUtility();
+            ScriptName = "Script.cs";
+            titleContent = new GUIContent("作成するスクリプト名を入力してください");
         }
 
-        private void Setup(GameObject targetObject, Action<CreateScriptArgs> onCreate)
+        public static void Open(Action<InputScriptNameWindow> onClosed)
         {
-            var sceneName = Path.GetFileNameWithoutExtension(targetObject.scene.name);
-
-            Directory = PathUtil.Combine("Assets", "Scripts", sceneName);
-            ScriptName = targetObject.name.Replace(" ", string.Empty) + ".cs";
-            NameSpace = sceneName;
-
-            _targetObject = targetObject;
-            _onCreate = onCreate;
-
-            titleContent = new GUIContent("作成するスクリプト名を入力してください");
+            var window = CreateInstance<InputScriptNameWindow>();
+            window._onClosed = onClosed;
+            window.ShowUtility();
         }
 
         void OnGUI()
         {
-            Directory = EditorGUILayout.TextField("ディレクトリ", Directory);
             ScriptName = EditorGUILayout.TextField("スクリプト名", ScriptName);
-            NameSpace = EditorGUILayout.TextField("ネームスペース", NameSpace);
 
             using (new ScopedGuiEnabled(!string.IsNullOrEmpty(ScriptName)))
             using (new ScopedHorizontalAlignment(Alignment.Right))
@@ -64,20 +36,18 @@ namespace Assets.Editor
                     Close();
                 }
             }
+
+            GUILayout.Button("hoge");
         }
 
         void OnDestroy()
         {
-            if (_onCreate != null)
+            if (_onClosed != null)
             {
-                _onCreate(new CreateScriptArgs(
-                    _targetObject,
-                    PathUtil.Combine(Directory, ScriptName),
-                    NameSpace));
+                _onClosed(this);
             }
         }
 
-        private GameObject _targetObject;
-        private Action<CreateScriptArgs> _onCreate;
+        private Action<InputScriptNameWindow> _onClosed;
     }
 }
