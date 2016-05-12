@@ -11,16 +11,17 @@ namespace HlLib.Unity
     {
         public static void For(int fromInclusive, int toExclusive, Action<int> body)
         {
-            var evt = new ManualResetEvent(false);
-
             var count = toExclusive - fromInclusive;
             var current = 0L;
 
+            var evt = new ManualResetEvent(false);
+
             for (var i = fromInclusive; i < toExclusive; ++i)
             {
-                ThreadPool.QueueUserWorkItem((index) =>
+                ThreadPool.QueueUserWorkItem((indexObj) =>
                 {
-                    body((int)index);
+                    var index = (int)indexObj;
+                    body(index);
                     if (Interlocked.Increment(ref current) == count)
                     {
                         evt.Set();
@@ -33,20 +34,23 @@ namespace HlLib.Unity
 
         public static void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body)
         {
+            var sourceArray = source.ToArray();
+            var count = sourceArray.Length;
+            var current = 0L;
+
             var evt = new ManualResetEvent(false);
 
-            var last = source.Last();
-            foreach (var item in source)
+            for (var i = 0; i < count; ++i)
             {
                 ThreadPool.QueueUserWorkItem((itemObj) =>
                 {
                     var sourceItem = (TSource)itemObj;
                     body(sourceItem);
-                    if (sourceItem.Equals(last))
+                    if (Interlocked.Increment(ref current) == count)
                     {
                         evt.Set();
                     }
-                }, item);
+                }, sourceArray[i]);
             }
 
             evt.WaitOne();
