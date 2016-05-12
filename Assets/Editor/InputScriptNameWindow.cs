@@ -62,19 +62,15 @@ namespace Assets.Editor
             {
                 if (LayoutUtil.SizedButton("作成", 75))
                 {
+                    if (_onCreate != null)
+                    {
+                        _onCreate(new CreateScriptArgs(
+                            _targetObject,
+                            PathUtil.Combine(Directory, ScriptName),
+                            NameSpace));
+                    }
                     Close();
                 }
-            }
-        }
-
-        private void OnDestroy()
-        {
-            if (_onCreate != null)
-            {
-                _onCreate(new CreateScriptArgs(
-                    _targetObject,
-                    PathUtil.Combine(Directory, ScriptName),
-                    NameSpace));
             }
         }
 

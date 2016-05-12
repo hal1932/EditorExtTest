@@ -8,7 +8,7 @@ using Assets.Editor;
 using UnityEditor.Callbacks;
 using HlLib.Unity;
 
-public class AddScript : EditorWindow
+public class AddScript : ScriptableObject
 {
     [MenuItem("GameObject/Add C# Script", false, 20)]
     public static void AddCsScript()

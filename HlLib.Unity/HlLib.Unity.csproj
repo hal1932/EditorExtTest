@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetUtil.cs" />
+    <Compile Include="Http\HttpClient.cs" />
+    <Compile Include="Http\HttpRequest.cs" />
+    <Compile Include="Http\HttpResponse.cs" />
     <Compile Include="LayoutUtil.cs" />
     <Compile Include="ParallelUtil.cs" />
     <Compile Include="PathUtil.cs" />
