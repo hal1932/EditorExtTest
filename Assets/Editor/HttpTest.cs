@@ -78,13 +78,8 @@ namespace Assets.Editor
 
             using (var req = new HttpRequest("http://zipcloud.ibsnet.co.jp/api/search", HttpMethod.Post))
             {
-                var param = "zipcode=1000000";
-                var data = Encoding.ASCII.GetBytes(param);
-
-                req.Headers["Content-Type"] = "application/x-www-form-urlencoded";
-                req.Headers["Content-Length"] = data.Length.ToString();
-
-                var res = req.Send(data);
+                var content = new FormUrlEncodedContent(new { zipcode = 1000000 });
+                var res = req.Send(content);
                 using (var stream = res.GetStream())
                 using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {

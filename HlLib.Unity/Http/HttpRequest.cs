@@ -38,7 +38,7 @@ namespace HlLib.Unity.Http
             return _request.GetRequestStream();
         }
 
-        public HttpResponse Send(byte[] content = null)
+        public HttpResponse Send(HttpContent content = null)
         {
             ApplyHeaders();
             ApplyContent(content);
@@ -47,7 +47,7 @@ namespace HlLib.Unity.Http
             return LastResponse;
         }
 
-        public ManualResetEvent SendAsync(byte[] content = null, Action<HttpResponse> onResponse = null)
+        public ManualResetEvent SendAsync(HttpContent content = null, Action<HttpResponse> onResponse = null)
         {
             ApplyHeaders();
             ApplyContent(content);
@@ -112,13 +112,17 @@ namespace HlLib.Unity.Http
             }
         }
 
-        private void ApplyContent(byte[] content)
+        private void ApplyContent(HttpContent content)
         {
             if (content != null)
             {
+                _request.ContentType = content.ContentType;
+                _request.ContentLength = content.Data.Length;
+
+                var data = content.Data;
                 using (var stream = _request.GetRequestStream())
                 {
-                    stream.Write(content, 0, content.Length);
+                    stream.Write(data, 0, data.Length);
                 }
             }
         }
