@@ -13,8 +13,6 @@ namespace HlLib.Unity.Http
     {
         Get,
         Post,
-
-        None,
     }
 
     public class HttpClient : IDisposable
