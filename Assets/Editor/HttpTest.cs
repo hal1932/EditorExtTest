@@ -31,7 +31,7 @@ namespace Assets.Editor
             //EditorUtility.ClearProgressBar();
 
 #if false
-            using (var req = new HttpRequest("http://google.co.jp", HttpMethod.Get))
+            using (var req = new HttpClient("http://google.co.jp", HttpMethod.Get))
             {
                 var res = req.Send();
                 using (var stream = res.GetStream())
@@ -41,7 +41,7 @@ namespace Assets.Editor
                 }
             }
 
-            using (var req = new HttpRequest("http://google.co.jp", HttpMethod.Get))
+            using (var req = new HttpClient("http://google.co.jp", HttpMethod.Get))
             {
                 var sendComplete = req.SendAsync(null, r => Debug.Log("hoge"));
                 sendComplete.WaitOne();
@@ -52,7 +52,7 @@ namespace Assets.Editor
                 }
             }
 
-            using (var req = new HttpRequest("http://google.co.jp", HttpMethod.Get))
+            using (var req = new HttpClient("http://google.co.jp", HttpMethod.Get))
             {
                 req.Timeout = 1;
                 var sendComplete = req.SendAsync(null, res =>
@@ -66,7 +66,7 @@ namespace Assets.Editor
             }
 #endif
 
-            using (var req = new HttpRequest("http://zipcloud.ibsnet.co.jp/api/search?zipcode=1000000", HttpMethod.Get))
+            using (var req = new HttpClient("http://zipcloud.ibsnet.co.jp/api/search?zipcode=1000000", HttpMethod.Get))
             {
                 var res = req.Send();
                 using (var stream = res.GetStream())
@@ -76,7 +76,7 @@ namespace Assets.Editor
                 }
             }
 
-            using (var req = new HttpRequest("http://zipcloud.ibsnet.co.jp/api/search", HttpMethod.Post))
+            using (var req = new HttpClient("http://zipcloud.ibsnet.co.jp/api/search", HttpMethod.Post))
             {
                 var content = new FormUrlEncodedContent(new { zipcode = 1000000 });
                 var res = req.Send(content);
